@@ -61,6 +61,10 @@ jobs:
   xlarge: # 8 vCPUs, 16GB RAM
     <<: *resource_job_defaults
     resource_class: xlarge
+  
+  2xlarge: # 32 vCPU, 128GB RAM
+    <<: *resource_job_defaults
+    resource_class: 2xlarge
 
   # vm jobs
   machine:
@@ -107,6 +111,77 @@ jobs:
       - run:
           <<: *basic_docker_build
       - run: docker version
+      
+  # All Linux VM resource classes
+  machine-medium:
+    machine: true
+    resource_class: medium
+    steps:
+      - run: curl http://169.254.169.254/latest/meta-data/instance-type
+  machine-large:
+    machine: true
+    resource_class: large
+    steps:
+      - run: curl http://169.254.169.254/latest/meta-data/instance-type
+  machine-xlarge:
+    machine: true
+    resource_class: xlarge
+    steps:
+      - run: curl http://169.254.169.254/latest/meta-data/instance-type
+  machine-2xlarge:
+    machine: true
+    resource_class: 2xlarge
+    steps:
+      - run: curl http://169.254.169.254/latest/meta-data/instance-type
+  
+  # All ARM resource classes 
+  arm-medium:
+    machine:
+      image: arm-default
+    resource_class: arm.medium
+    steps:
+    - checkout
+    - run: curl http://169.254.169.254/latest/meta-data/instance-type
+    - run: uname -a
+    
+  arm-large:
+    machine:
+      image: arm-default
+    resource_class: arm.large
+    steps:
+    - checkout
+    - run: curl http://169.254.169.254/latest/meta-data/instance-type
+    - run: uname -a
+
+  # All Windows resource classes
+  windows-medium:
+    machine:
+      image: windows-default # Windows machine image
+    resource_class: windows.medium
+    steps:
+      - checkout
+      - run: systeminfo
+  windows-large:
+    machine:
+      image: windows-default # Windows machine image
+    resource_class: windows.large
+    steps:
+      - checkout
+      - run: systeminfo
+  windows-xlarge:
+    machine:
+      image: windows-default # Windows machine image
+    resource_class: windows.xlarge
+    steps:
+      - checkout
+      - run: systeminfo
+  windows-2xlarge:
+    machine:
+      image: windows-default # Windows machine image
+    resource_class: windows.2xlarge
+    steps:
+      - checkout
+      - run: systeminfo
 
   # feature jobs
   contexts:
@@ -212,6 +287,7 @@ workflows:
       - remote_docker
       - docker_layer_caching
       - machine_dlc
+      - 
 
   feature_jobs:
     jobs:
