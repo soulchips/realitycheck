@@ -62,9 +62,9 @@ jobs:
     <<: *resource_job_defaults
     resource_class: xlarge
   
-  2xlarge: # 32 vCPU, 128GB RAM
-    <<: *resource_job_defaults
-    resource_class: 2xlarge
+  # 2xlarge: # 32 vCPU, 128GB RAM
+  #   <<: *resource_job_defaults
+  #   resource_class: 2xlarge
 
   # vm jobs
   machine:
