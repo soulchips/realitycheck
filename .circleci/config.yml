@@ -71,27 +71,7 @@ jobs:
     machine: true
     steps:
       - run: |
-          echo "# This first, simple check will work for many older instance types." >> check.sh
-          echo "if [ -f /sys/hypervisor/uuid ]; then" >> check.sh
-          echo "  # File should be readable by non-root users." >> check.sh
-          echo "  if [ `head -c 3 /sys/hypervisor/uuid` == "ec2" ]; then" >> check.sh
-          echo "    echo yes" >> check.sh
-          echo "  else" >> check.sh
-          echo "    echo no" >> check.sh
-          echo "  fi" >> check.sh
-          echo "# This check will work on newer m5/c5 instances, but only if you have root!" >> check.sh
-          echo "elif [ -r /sys/devices/virtual/dmi/id/product_uuid ]; then" >> check.sh
-          echo "  # If the file exists AND is readable by us, we can rely on it." >> check.sh
-          echo "  if [ `head -c 3 /sys/devices/virtual/dmi/id/product_uuid` == "EC2" ]; then" >> check.sh
-          echo "    echo yes" >> check.sh
-          echo "  else" >> check.sh
-          echo "    echo no" >> check.sh
-          echo "  fi" >> check.sh
-          echo "else" >> check.sh
-          echo "  echo 'something else'" >> check.sh
-          echo "fi" >> check.sh
-          chmod +x check.sh
-          ./check.sh
+          curl http://169.254.169.254/latest/meta-data/instance-type
     environment:
       SLEEP: 1
 
@@ -142,6 +122,51 @@ jobs:
       - run: docker version
 
   # linux jobs
+  medium_machine:
+    machine: true
+    resource_class: medium
+    steps:
+      - run:
+          <<: *basic_docker_build
+      - run: |
+          echo $SLEEP
+          date
+          sleep $SLEEP
+          date
+          echo 'Done sleeping.'
+    environment:
+      SLEEP: 1
+  
+  large_machine:
+    machine: true
+    resource_class: large
+    steps:
+      - run:
+          <<: *basic_docker_build
+      - run: |
+          echo $SLEEP
+          date
+          sleep $SLEEP
+          date
+          echo 'Done sleeping.'
+    environment:
+      SLEEP: 1
+
+  xlarge_machine:
+    machine: true
+    resource_class: xlarge
+    steps:
+      - run:
+          <<: *basic_docker_build
+      - run: |
+          echo $SLEEP
+          date
+          sleep $SLEEP
+          date
+          echo 'Done sleeping.'
+    environment:
+      SLEEP: 1
+
   2xlarge_machine:
     machine: true
     resource_class: 2xlarge
@@ -285,4 +310,7 @@ workflows:
 
   linux_jobs:
     jobs:
+      - medium_machine
+      - large_machine
+      - xlarge_machine
       - 2xlarge_machine
