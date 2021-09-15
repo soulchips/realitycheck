@@ -112,6 +112,21 @@ jobs:
           <<: *basic_docker_build
       - run: docker version
 
+  2xlarge_machine:
+    machine: true
+    resource_class: 2xlarge
+    steps:
+      - run:
+          <<: *basic_docker_build
+      - run: |
+          echo $SLEEP
+          date
+          sleep $SLEEP
+          date
+          echo 'Done sleeping.'
+    environment:
+      SLEEP: 1
+
   # feature jobs
   contexts:
     <<: *contexts_defaults
@@ -213,6 +228,7 @@ workflows:
   vm_jobs:
     jobs:
       - machine
+      - 2xlarge_machine
       - remote_docker
       - docker_layer_caching
       - machine_dlc
