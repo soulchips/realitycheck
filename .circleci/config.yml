@@ -66,6 +66,35 @@ jobs:
   #   <<: *resource_job_defaults
   #   resource_class: 2xlarge
 
+  # check if EC2
+  check_if_ec2:
+    machine: true
+    steps:
+      - run: |
+          echo "# This first, simple check will work for many older instance types." >> check.sh
+          echo "if [ -f /sys/hypervisor/uuid ]; then" >> check.sh
+          echo "  # File should be readable by non-root users." >> check.sh
+          echo "  if [ `head -c 3 /sys/hypervisor/uuid` == "ec2" ]; then" >> check.sh
+          echo "    echo yes" >> check.sh
+          echo "  else" >> check.sh
+          echo "    echo no" >> check.sh
+          echo "  fi" >> check.sh
+          echo "# This check will work on newer m5/c5 instances, but only if you have root!" >> check.sh
+          echo "elif [ -r /sys/devices/virtual/dmi/id/product_uuid ]; then" >> check.sh
+          echo "  # If the file exists AND is readable by us, we can rely on it." >> check.sh
+          echo "  if [ `head -c 3 /sys/devices/virtual/dmi/id/product_uuid` == "EC2" ]; then" >> check.sh
+          echo "    echo yes" >> check.sh
+          echo "  else" >> check.sh
+          echo "    echo no" >> check.sh
+          echo "  fi" >> check.sh
+          echo "else" >> check.sh
+          echo "  echo 'something else'" >> check.sh
+          echo "fi" >> check.sh
+          chmod +x check.sh
+          ./check.sh
+    environment:
+      SLEEP: 1
+
   # vm jobs
   machine:
     machine: true
@@ -112,6 +141,7 @@ jobs:
           <<: *basic_docker_build
       - run: docker version
 
+  # linux jobs
   2xlarge_machine:
     machine: true
     resource_class: 2xlarge
@@ -126,6 +156,10 @@ jobs:
           echo 'Done sleeping.'
     environment:
       SLEEP: 1
+
+  # windows jobs
+
+  # arm jobs
 
   # feature jobs
   contexts:
@@ -228,7 +262,6 @@ workflows:
   vm_jobs:
     jobs:
       - machine
-      - 2xlarge_machine
       - remote_docker
       - docker_layer_caching
       - machine_dlc
@@ -246,3 +279,10 @@ workflows:
             - write_workspace
       - artifacts_test_results
 
+  ec2_check:
+    jobs:
+      - check_if_ec2
+
+  linux_jobs:
+    jobs:
+      - 2xlarge_machine
