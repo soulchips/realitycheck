@@ -69,7 +69,7 @@ jobs:
       - run: |
           result=$(curl http://169.254.169.254/latest/meta-data/instance-type)
           echo $result
-          if [ $result = 'Not Found' ]; then exit 1; fi
+          if [[ $result == *"Not Found"* ]]; then exit 1; fi
     environment:
       SLEEP: 1
 
