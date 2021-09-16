@@ -418,12 +418,12 @@ workflows:
       - xlarge_windows
       - 2xlarge_windows
 
-  run_arm_jobs_if_ec2:
+  arm_jobs:
     jobs:
-      - check_if_ec2
+      - run_arm_jobs_if_ec2
       - medium_arm:
           requires:
-            - check_if_ec2
+            - run_arm_jobs_if_ec2
       - large_arm:
           requires:
-            - check_if_ec2
+            - run_arm_jobs_if_ec2
