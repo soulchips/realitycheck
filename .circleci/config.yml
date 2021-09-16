@@ -61,17 +61,15 @@ jobs:
   xlarge: # 8 vCPUs, 16GB RAM
     <<: *resource_job_defaults
     resource_class: xlarge
-  
-  # 2xlarge: # 32 vCPU, 128GB RAM
-  #   <<: *resource_job_defaults
-  #   resource_class: 2xlarge
 
   # check if EC2
   check_if_ec2:
     machine: true
     steps:
       - run: |
-          curl http://169.254.169.254/latest/meta-data/instance-type
+          result=$(curl http://169.254.169.254/latest/meta-data/instance-type)
+          echo $result
+          if [ $result = 'Not Found' ]; then exit 1; fi
     environment:
       SLEEP: 1
 
@@ -122,7 +120,7 @@ jobs:
       - run: docker version
 
   # linux jobs
-  medium_machine:
+  medium_linux:
     machine: true
     resource_class: medium
     steps:
@@ -137,7 +135,7 @@ jobs:
     environment:
       SLEEP: 1
   
-  large_machine:
+  large_linux:
     machine: true
     resource_class: large
     steps:
@@ -152,7 +150,7 @@ jobs:
     environment:
       SLEEP: 1
 
-  xlarge_machine:
+  xlarge_linux:
     machine: true
     resource_class: xlarge
     steps:
@@ -167,7 +165,7 @@ jobs:
     environment:
       SLEEP: 1
 
-  2xlarge_machine:
+  2xlarge_linux:
     machine: true
     resource_class: 2xlarge
     steps:
@@ -183,8 +181,102 @@ jobs:
       SLEEP: 1
 
   # windows jobs
+  mediumn_windows:
+    machine:
+      image: windows-default
+    resource_class: windows.medium
+    steps:
+      - run:
+          <<: *basic_docker_build
+      - run: |
+          echo $SLEEP
+          date
+          sleep $SLEEP
+          date
+          echo 'Done sleeping.'
+    environment:
+      SLEEP: 1
+
+  large_windows:
+    machine:
+      image: windows-default
+    resource_class: windows.large
+    steps:
+      - run:
+          <<: *basic_docker_build
+      - run: |
+          echo $SLEEP
+          date
+          sleep $SLEEP
+          date
+          echo 'Done sleeping.'
+    environment:
+      SLEEP: 1
+
+  xlarge_windows:
+    machine:
+      image: windows-default
+    resource_class: windows.xlarge
+    steps:
+      - run:
+          <<: *basic_docker_build
+      - run: |
+          echo $SLEEP
+          date
+          sleep $SLEEP
+          date
+          echo 'Done sleeping.'
+    environment:
+      SLEEP: 1
+
+  2xlarge_windows:
+    machine:
+      image: windows-default
+    resource_class: windows.2xlarge
+    steps:
+      - run:
+          <<: *basic_docker_build
+      - run: |
+          echo $SLEEP
+          date
+          sleep $SLEEP
+          date
+          echo 'Done sleeping.'
+    environment:
+      SLEEP: 1
 
   # arm jobs
+  mediumn_arm:
+    machine:
+      image: arm-default
+    resource_class: arm.medium
+    steps:
+      - run:
+          <<: *basic_docker_build
+      - run: |
+          echo $SLEEP
+          date
+          sleep $SLEEP
+          date
+          echo 'Done sleeping.'
+    environment:
+      SLEEP: 1
+
+  large_arm:
+    machine:
+      image: arm-default
+    resource_class: arm.large
+    steps:
+      - run:
+          <<: *basic_docker_build
+      - run: |
+          echo $SLEEP
+          date
+          sleep $SLEEP
+          date
+          echo 'Done sleeping.'
+    environment:
+      SLEEP: 1
 
   # feature jobs
   contexts:
@@ -310,7 +402,19 @@ workflows:
 
   linux_jobs:
     jobs:
-      - medium_machine
-      - large_machine
-      - xlarge_machine
-      - 2xlarge_machine
+      - medium_linux
+      - large_linux
+      - xlarge_linux
+      - 2xlarge_linux
+
+  windows_jobs:
+    jobs:
+      - medium_windows
+      - large_windows
+      - xlarge_windows
+      - 2xlarge_windows
+
+  arm_jobs:
+    jobs:
+      - medium_arm
+      - large_arm
