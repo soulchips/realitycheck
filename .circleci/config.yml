@@ -404,10 +404,6 @@ workflows:
             - write_workspace
       - artifacts_test_results
 
-  ec2_check:
-    jobs:
-      - check_if_ec2
-
   linux_jobs:
     jobs:
       - medium_linux
@@ -421,9 +417,13 @@ workflows:
       - large_windows
       - xlarge_windows
       - 2xlarge_windows
-      - windows-medium
 
   arm_jobs:
     jobs:
-      - medium_arm
-      - large_arm
+      - check_if_ec2
+      - medium_arm:
+          requires:
+            - check_if_ec2
+      - large_arm:
+          requires:
+            - check_if_ec2
