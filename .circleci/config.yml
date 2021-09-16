@@ -1,7 +1,8 @@
 version: 2
 
 resource_job_defaults: &resource_job_defaults
-  docker:  [{image: 'circleci/ruby:2.4.1'}]
+  docker:
+    - image: 'cimg/base:2021.02-20.04'
   steps:
     - run:
         name: verify required Environment Variables
@@ -63,61 +64,14 @@ jobs:
     resource_class: xlarge
 
   # check if EC2
-  check_if_ec2:
+  run_arm_jobs_if_ec2:
     machine: true
     steps:
       - run: |
           result=$(curl http://169.254.169.254/latest/meta-data/instance-type)
-          echo $result
           if [[ $result == *"Not Found"* ]]; then exit 1; fi
     environment:
       SLEEP: 1
-
-  # vm jobs
-  machine:
-    machine: true
-    steps:
-      - run:
-          <<: *basic_docker_build
-      - run: |
-          echo $SLEEP
-          date
-          sleep $SLEEP
-          date
-          echo 'Done sleeping.'
-    environment:
-      SLEEP: 1
-
-  remote_docker:
-    <<: *remote_docker_defaults
-    steps:
-      - run: which docker
-      - run: docker -v
-      - setup_remote_docker
-      - run:
-          <<: *basic_docker_build
-      - run: docker version
-
-  docker_layer_caching:
-    <<: *remote_docker_defaults
-    steps:
-      - run: which docker
-      - run: docker -v
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-          <<: *basic_docker_build
-      - run: docker version
-
-  machine_dlc:
-    machine:
-      docker_layer_caching: true
-    steps:
-      - run: which docker
-      - run: docker -v
-      - run:
-          <<: *basic_docker_build
-      - run: docker version
 
   # linux jobs
   medium_linux:
@@ -285,6 +239,52 @@ jobs:
           echo 'Done sleeping.'
     environment:
       SLEEP: 1
+
+  # vm jobs
+  machine:
+    machine: true
+    steps:
+      - run:
+          <<: *basic_docker_build
+      - run: |
+          echo $SLEEP
+          date
+          sleep $SLEEP
+          date
+          echo 'Done sleeping.'
+    environment:
+      SLEEP: 1
+
+  remote_docker:
+    <<: *remote_docker_defaults
+    steps:
+      - run: which docker
+      - run: docker -v
+      - setup_remote_docker
+      - run:
+          <<: *basic_docker_build
+      - run: docker version
+
+  docker_layer_caching:
+    <<: *remote_docker_defaults
+    steps:
+      - run: which docker
+      - run: docker -v
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          <<: *basic_docker_build
+      - run: docker version
+
+  machine_dlc:
+    machine:
+      docker_layer_caching: true
+    steps:
+      - run: which docker
+      - run: docker -v
+      - run:
+          <<: *basic_docker_build
+      - run: docker version
 
   # feature jobs
   contexts:
