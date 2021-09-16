@@ -181,7 +181,7 @@ jobs:
       SLEEP: 1
 
   # windows jobs
-  mediumn_windows:
+  medium_windows:
     machine:
       image: windows-default
     resource_class: windows.medium
@@ -246,7 +246,7 @@ jobs:
       SLEEP: 1
 
   # arm jobs
-  mediumn_arm:
+  medium_arm:
     machine:
       image: arm-default
     resource_class: arm.medium
