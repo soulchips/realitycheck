@@ -184,7 +184,7 @@ jobs:
   medium_windows:
     machine:
       image: windows-default
-    resource_class: windows.medium
+    resource_class: medium
     steps:
       - run:
           <<: *basic_docker_build
@@ -200,7 +200,7 @@ jobs:
   large_windows:
     machine:
       image: windows-default
-    resource_class: windows.large
+    resource_class: large
     steps:
       - run:
           <<: *basic_docker_build
@@ -216,7 +216,7 @@ jobs:
   xlarge_windows:
     machine:
       image: windows-default
-    resource_class: windows.xlarge
+    resource_class: xlarge
     steps:
       - run:
           <<: *basic_docker_build
@@ -232,7 +232,7 @@ jobs:
   2xlarge_windows:
     machine:
       image: windows-default
-    resource_class: windows.2xlarge
+    resource_class: 2xlarge
     steps:
       - run:
           <<: *basic_docker_build
@@ -259,7 +259,6 @@ jobs:
           sleep $SLEEP
           date
           echo 'Done sleeping.'
-          curl http://169.254.169.254/latest/meta-data/instance-type
     environment:
       SLEEP: 1
 
