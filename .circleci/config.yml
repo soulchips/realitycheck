@@ -245,6 +245,14 @@ jobs:
     environment:
       SLEEP: 1
 
+  windows-medium:
+    machine:
+      image: windows-default # Windows machine image
+    resource_class: windows.medium
+    steps:
+      - checkout
+      - run: systeminfo
+
   # arm jobs
   medium_arm:
     machine:
@@ -413,6 +421,7 @@ workflows:
       - large_windows
       - xlarge_windows
       - 2xlarge_windows
+      - windows-medium
 
   arm_jobs:
     jobs:
