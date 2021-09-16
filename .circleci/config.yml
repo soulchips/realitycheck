@@ -418,7 +418,7 @@ workflows:
       - xlarge_windows
       - 2xlarge_windows
 
-  arm_jobs:
+  run_arm_jobs_if_ec2:
     jobs:
       - check_if_ec2
       - medium_arm:
