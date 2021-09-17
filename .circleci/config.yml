@@ -86,7 +86,6 @@ jobs:
           sleep $SLEEP
           date
           echo 'Done sleeping.'
-          curl http://169.254.169.254/latest/meta-data/instance-type
     environment:
       SLEEP: 1
   
@@ -139,7 +138,7 @@ jobs:
   medium_windows:
     machine:
       image: windows-default
-    resource_class: medium
+    resource_class: windows.medium
     steps:
       - run:
           <<: *basic_docker_build
@@ -155,7 +154,7 @@ jobs:
   large_windows:
     machine:
       image: windows-default
-    resource_class: large
+    resource_class: windows.large
     steps:
       - run:
           <<: *basic_docker_build
@@ -171,7 +170,7 @@ jobs:
   xlarge_windows:
     machine:
       image: windows-default
-    resource_class: xlarge
+    resource_class: windows.xlarge
     steps:
       - run:
           <<: *basic_docker_build
@@ -187,7 +186,7 @@ jobs:
   2xlarge_windows:
     machine:
       image: windows-default
-    resource_class: 2xlarge
+    resource_class: windows.2xlarge
     steps:
       - run:
           <<: *basic_docker_build
@@ -242,21 +241,6 @@ jobs:
       SLEEP: 1
 
   # vm jobs
-  machine:
-    machine: true
-    steps:
-      - run:
-          <<: *basic_docker_build
-      - run: |
-          echo $SLEEP
-          date
-          sleep $SLEEP
-          date
-          echo 'Done sleeping.'
-          curl http://169.254.169.254/latest/meta-data/instance-type
-    environment:
-      SLEEP: 1
-
   remote_docker:
     <<: *remote_docker_defaults
     steps:
@@ -388,7 +372,6 @@ workflows:
 
   vm_jobs:
     jobs:
-      - machine
       - remote_docker
       - docker_layer_caching
       - machine_dlc
