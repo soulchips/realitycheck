@@ -327,6 +327,21 @@ workflows:
       - medium+
       - large
       - xlarge
+      - xlarge
+      - xlarge
+      - xlarge
+      - xlarge
+      - xlarge
+      - xlarge
+      - xlarge
+      - xlarge
+      - xlarge
+      - xlarge
+      - xlarge
+      - xlarge
+      - xlarge
+      - xlarge
+      - xlarge
 
   vm_jobs:
     jobs:
