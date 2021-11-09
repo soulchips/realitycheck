@@ -14,6 +14,9 @@ resource_job_defaults: &resource_job_defaults
             exit 1
           fi
     - run:
+        name: wait 2 mins
+        command: sleep 120
+    - run:
         name: verify that job ran with the requested resource_class option
         command: |
           curl -k \
@@ -62,7 +65,43 @@ jobs:
   xlarge: # 8 vCPUs, 16GB RAM
     <<: *resource_job_defaults
     resource_class: xlarge
+  
+  xlarge2: # 8 vCPUs, 16GB RAM
+    <<: *resource_job_defaults
+    resource_class: xlarge
+    
+  xlarge3: # 8 vCPUs, 16GB RAM
+    <<: *resource_job_defaults
+    resource_class: xlarge
+  
+  xlarge4: # 8 vCPUs, 16GB RAM
+    <<: *resource_job_defaults
+    resource_class: xlarge
+  
+  xlarge5: # 8 vCPUs, 16GB RAM
+    <<: *resource_job_defaults
+    resource_class: xlarge
+    
+  xlarge6: # 8 vCPUs, 16GB RAM
+    <<: *resource_job_defaults
+    resource_class: xlarge
+    
+  xlarge7: # 8 vCPUs, 16GB RAM
+    <<: *resource_job_defaults
+    resource_class: xlarge
+  
+  xlarge8: # 8 vCPUs, 16GB RAM
+    <<: *resource_job_defaults
+    resource_class: xlarge
+    
+  xlarge9: # 8 vCPUs, 16GB RAM
+    <<: *resource_job_defaults
+    resource_class: xlarge
 
+  xlarge10: # 8 vCPUs, 16GB RAM
+    <<: *resource_job_defaults
+    resource_class: xlarge
+    
   # check if EC2
   run_arm_jobs_if_ec2:
     machine: true
@@ -327,21 +366,15 @@ workflows:
       - medium+
       - large
       - xlarge
-      - xlarge
-      - xlarge
-      - xlarge
-      - xlarge
-      - xlarge
-      - xlarge
-      - xlarge
-      - xlarge
-      - xlarge
-      - xlarge
-      - xlarge
-      - xlarge
-      - xlarge
-      - xlarge
-      - xlarge
+      - xlarge2
+      - xlarge3
+      - xlarge4
+      - xlarge5
+      - xlarge6
+      - xlarge7
+      - xlarge8
+      - xlarge9
+      - xlarge10
 
   vm_jobs:
     jobs:
