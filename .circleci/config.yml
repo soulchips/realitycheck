@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     machine:
-      image: cimg/android:2022.1.1
+      image: android:2021.12.1
     # To optimize build times, we recommend "large" and above for Android-related jobs
     resource_class: large
     steps:
