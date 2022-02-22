@@ -1,7 +1,7 @@
 # .circleci/config.yaml
 version: 2.1
 orbs:
-  android: circleci/android@1.0.3
+  android: circleci/android@2.0.0
 workflows:
   test:
     jobs:
