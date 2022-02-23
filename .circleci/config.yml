@@ -1,14 +1,12 @@
-version: '2.1'
+version: 2.1
 orbs:
   android: circleci/android@2.0
 jobs:
   test:
-    machine:
-      image: ubuntu-2004-focal-1601316109-us-central1
-    # executor:
-    #   name: android/android-machine
-    #   resource-class: large
-    #   tag: 2021.10.1
+    executor:
+      name: android/android-machine
+      resource-class: large
+      tag: 2021.10.1
     steps:
       - checkout
       - android/create-avd:
