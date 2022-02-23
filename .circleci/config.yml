@@ -4,7 +4,7 @@ orbs:
 jobs:
   test:
     machine:
-      image: ubuntu-2004:202010-01
+      image: https://www.googleapis.com/compute/v1/projects/circleci-picard-mahmood/global/images/ubuntu-2004-focal-1601316109-us-central1
     # executor:
     #   name: android/android-machine
     #   resource-class: large
