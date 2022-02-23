@@ -4,7 +4,7 @@ orbs:
 jobs:
   test:
     machine:
-      image: ubuntu-2004-android-1645120544-us-central1
+      image: ubuntu-2004:202010-01
     # executor:
     #   name: android/android-machine
     #   resource-class: large
