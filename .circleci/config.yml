@@ -3,7 +3,8 @@ orbs:
   android: circleci/android@2.0
 jobs:
   test:
-    machine: true
+    machine:
+      image: android-default
     steps:
       - checkout
       - android/create-avd:
