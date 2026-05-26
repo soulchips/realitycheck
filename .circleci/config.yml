@@ -195,7 +195,39 @@ jobs:
     environment:
       SLEEP: 1
 
-  aws_arm:
+  aws_arm_default:
+    machine:
+      image: arm-default
+    resource_class: arm.medium
+    steps:
+      - run:
+          <<: *basic_docker_build
+      - run: |
+          echo $SLEEP
+          date
+          sleep $SLEEP
+          date
+          echo 'Done sleeping.'
+      - run:
+          name: Verify ARM architecture
+          command: |
+            set -euo pipefail
+            arch="$(uname -m)"
+            if [[ -r /etc/os-release ]]; then
+              os="$(. /etc/os-release && echo "$PRETTY_NAME")"
+            else
+              os="$(uname -sr)"
+            fi
+            echo "arch: $arch"
+            echo "os:   $os"
+            case "$arch" in
+              aarch64|arm64) exit 0 ;;
+              *)             exit 1 ;;
+            esac
+    environment:
+      SLEEP: 1
+
+  aws_arm_2404:
     machine:
       image: ubuntu-2404
     resource_class: arm.medium
@@ -208,6 +240,54 @@ jobs:
           sleep $SLEEP
           date
           echo 'Done sleeping.'
+      - run:
+          name: Verify ARM architecture
+          command: |
+            set -euo pipefail
+            arch="$(uname -m)"
+            if [[ -r /etc/os-release ]]; then
+              os="$(. /etc/os-release && echo "$PRETTY_NAME")"
+            else
+              os="$(uname -sr)"
+            fi
+            echo "arch: $arch"
+            echo "os:   $os"
+            case "$arch" in
+              aarch64|arm64) exit 0 ;;
+              *)             exit 1 ;;
+            esac
+    environment:
+      SLEEP: 1
+
+    aws_arm_2604:
+    machine:
+      image: ubuntu-2604
+    resource_class: arm.medium
+    steps:
+      - run:
+          <<: *basic_docker_build
+      - run: |
+          echo $SLEEP
+          date
+          sleep $SLEEP
+          date
+          echo 'Done sleeping.'
+      - run:
+          name: Verify ARM architecture
+          command: |
+            set -euo pipefail
+            arch="$(uname -m)"
+            if [[ -r /etc/os-release ]]; then
+              os="$(. /etc/os-release && echo "$PRETTY_NAME")"
+            else
+              os="$(uname -sr)"
+            fi
+            echo "arch: $arch"
+            echo "os:   $os"
+            case "$arch" in
+              aarch64|arm64) exit 0 ;;
+              *)             exit 1 ;;
+            esac
     environment:
       SLEEP: 1
 
