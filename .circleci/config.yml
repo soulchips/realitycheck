@@ -259,7 +259,7 @@ jobs:
     environment:
       SLEEP: 1
 
-    aws_arm_2604:
+  aws_arm_2604:
     machine:
       image: ubuntu-2604
     resource_class: arm.medium
@@ -440,7 +440,13 @@ workflows:
   aws_jobs:
     jobs:
       - check_if_environment_is_aws
-      - aws_arm:
+      - aws_arm_default:
+          requires:
+            - check_if_environment_is_aws
+      - aws_arm_2404:
+          requires:
+            - check_if_environment_is_aws
+      - aws_arm_2604:
           requires:
             - check_if_environment_is_aws
   
