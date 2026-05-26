@@ -197,7 +197,7 @@ jobs:
 
   aws_arm:
     machine:
-      image: arm-default
+      image: ubuntu-2404
     resource_class: arm.medium
     steps:
       - run:
