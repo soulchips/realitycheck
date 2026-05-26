@@ -198,7 +198,7 @@ jobs:
   aws_arm:
     machine:
       image: arm-default
-    resource_class: arm.arm-medium
+    resource_class: arm.medium
     steps:
       - run:
           <<: *basic_docker_build
